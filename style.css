@@ -1,29 +1,13 @@
-/* you can add to or change this. */
+#game {
+    width: 700px;
+    height: 500px;
 
+}
 #game div {
     border: 1px solid black;
     width: 100px;
-    height: 100px;
-    margin: 20px;
+    height: 200px;
+    margin: 10px;
+    background-color: gray;
     display: inline-block;
-  }
-
-  .red {
-
-  }
-
-  .blue {
-
-  }
-
-  .green {
-
-  }
-
-  .purple {
-
-  }
-
-  .orange {
-
   }

@@ -1,21 +1,18 @@
 "use strict";
 
-/** Memory game: find matching pairs of cards and flip both of them. */
+//const FOUND_MATCH_WAIT_MSECS = 1000;
 
-const FOUND_MATCH_WAIT_MSECS = 1000;
 const COLORS = [
   "red", "blue", "green", "orange", "purple",
   "red", "blue", "green", "orange", "purple",
 ];
 
+//OUR SHUFFLED ARRAY IS CREATED
 const colors = shuffle(COLORS);
-console.log(colors);
-
-createCards(colors);
 
 
+//////////////////////////////////////////////////////////////////////////////
 /** Shuffle array items in-place and return shuffled array. */
-
 function shuffle(items) {
   // This algorithm does a "perfect shuffle", where there won't be any
   // statistical bias in the shuffle (many naive attempts to shuffle end up not
@@ -31,36 +28,89 @@ function shuffle(items) {
 
   return items;
 }
+//////////////////////////////////////////////////////////////////////////////
 
-/** Create card for every color in colors (each will appear twice)
- *
- * Each div DOM element will have:
- * - a class with the value of the color
- * - an click listener for each card to handleCardClick
- */
+////////////////////GAME BOARD IS CREATED WITH COLORS HIDDEN//////////////////
+const game = document.querySelector('#game');
+var theMove = [];
+var matchArray = [];
 
-function createCards(colors) {
-  const gameBoard = document.getElementById("game");
+for (let i = 0; i < 10; i++) {
+  const card = document.createElement('div');
+  let string = i.toString();
+  card.setAttribute('id', string);
+  card.setAttribute('class', `${colors[i]}` );
+  //card.addEventListener('click', findState);
+  game.appendChild(card);
+}
 
-  for (let color of colors) {
-    // missing code here ...
+addEventz();
+
+
+function addEventz() {
+  const stack = document.querySelectorAll('#game div');
+  for (let item of stack) {
+    //console.log('the class is ', item.className);
+
+    if (!matchArray.includes(item.className)){
+      item.addEventListener('click', findState);
+    }
   }
 }
 
-/** Flip a card face-up. */
 
-function flipCard(card) {
-  // ... you need to write this ...
+function findState(event, arr) {
+  //WHY DOESN'T THIS LINE WORK??
+  //const coloured = document.querySelector(`#${event.target.id}`);
+  const coloured = document.getElementById(`${event.target.id}`);
+  coloured.style.backgroundColor = event.target.className;
+
+  theMove.push(event.target.id);
+  if (theMove[0] === theMove[1]){
+    theMove.pop();
+  }
+  moveLimiter(theMove);
+}
+//////////////////////////////////////////////////////////////////////////////
+
+
+
+function moveLimiter(arr){
+  if (arr.length == 2){
+  removeEventz();
+  setTimeout(function(){
+    removeEventz();
+
+    const card1 = document.getElementById(`${arr[0]}`);
+    const card2 = document.getElementById(`${arr[1]}`);
+    if (card1.className === card2.className) {
+      matchArray.push(card1.className);
+    }
+    console.log(matchArray);
+    returnToGray(arr);
+
+  },1000);
+  setTimeout(function(){
+    addEventz();
+    theMove.length = 0;
+  }, 1000);
+  };
 }
 
-/** Flip a card face-down. */
-
-function unFlipCard(card) {
-  // ... you need to write this ...
+function returnToGray(arr){
+  console.log('the array is ', arr);
+  const card1 = document.getElementById(`${arr[0]}`);
+  const card2 = document.getElementById(`${arr[1]}`);
+  if (!matchArray.includes(card1.className)){
+    card1.style.backgroundColor = 'gray';
+    card2.style.backgroundColor = 'gray';
+  }
 }
 
-/** Handle clicking on a card: this could be first-card or second-card. */
+function removeEventz() {
+  const stack = document.querySelectorAll('#game div');
+  for (let card of stack) {
+    card.removeEventListener('click', findState);
+  }
 
-function handleCardClick(evt) {
-  // ... you need to write this ...
 }
