@@ -32,9 +32,10 @@ function shuffle(items) {
 
 ////////////////////GAME BOARD IS CREATED WITH COLORS HIDDEN//////////////////
 const game = document.querySelector('#game');
-var theMove = [];
-var matchArray = [];
+var theMove = []; //keeps track of the current move plus last move
+var matchArray = []; //holds all the cards that should remain face up
 
+//our ten cards are created and assigned class and id's
 for (let i = 0; i < 10; i++) {
   const card = document.createElement('div');
   let string = i.toString();
@@ -43,9 +44,12 @@ for (let i = 0; i < 10; i++) {
   game.appendChild(card);
 }
 
+
+//calling the function that begins the game
 addEventz();
 
 
+//this function allows for interaction: event listeners are added
 function addEventz() {
   const stack = document.querySelectorAll('#game div');
   for (let item of stack) {
@@ -58,7 +62,8 @@ function addEventz() {
 }
 
 
-function findState(event, arr) {
+//callback from the event listener, color of card changes, theMove array is updated
+function findState(event) {
   //WHY DOESN'T THIS LINE WORK??
   //const coloured = document.querySelector(`#${event.target.id}`);
   const coloured = document.getElementById(`${event.target.id}`);
@@ -73,7 +78,10 @@ function findState(event, arr) {
 //////////////////////////////////////////////////////////////////////////////
 
 
-
+//function that is only run when two moves accumulate in theMove array
+//does a lot of work: halts the gamer's progress by calling the removeEventz function,
+//checks for a match, calls the return to facedown function after 1 second,
+//resets theMove array, and adds the event listeners back after a second
 function moveLimiter(arr){
   if (arr.length == 2){
   removeEventz();
@@ -85,7 +93,6 @@ function moveLimiter(arr){
     if (card1.className === card2.className) {
       matchArray.push(card1.className);
     }
-    console.log(matchArray);
     returnToGray(arr);
 
   },1000);
@@ -96,8 +103,10 @@ function moveLimiter(arr){
   };
 }
 
+
+//theMove array is passed in and we'll figure out if we have a match, if not we
+//will flip the cards over
 function returnToGray(arr){
-  console.log('the array is ', arr);
   const card1 = document.getElementById(`${arr[0]}`);
   const card2 = document.getElementById(`${arr[1]}`);
   if (!matchArray.includes(card1.className)){
@@ -106,6 +115,7 @@ function returnToGray(arr){
   }
 }
 
+//removes the event listener from each card
 function removeEventz() {
   const stack = document.querySelectorAll('#game div');
   for (let card of stack) {
