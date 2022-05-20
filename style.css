@@ -1,6 +1,34 @@
+html {
+    scroll-behavior: smooth;
+}
+
+#opening {
+    margin-top: 300px;
+    width: 100vw;
+    height: 100vh;
+    text-align: center;
+    font-family: monospace;
+}
+
+#opening h1 {
+    font-size: 60px;
+    color: aqua;
+    text-shadow: 2px 2px 3px red;
+}
+
+#opening h2 {
+    font-size: 30px;
+}
+a {
+    text-decoration: none;
+    font-size: 20px;
+}
+
 #game {
-    width: 700px;
+    margin: 0 auto;
+    width: 620px;
     height: 500px;
+    padding-bottom: 200px;
 
 }
 #game div {
@@ -11,4 +39,18 @@
     background-color: gray;
     display: inline-block;
     border-radius: 5px;
-  }
+}
+
+#game h2 {
+    text-align: center;
+}
+
+button {
+    background-color: pink;
+    margin-left: 260px;
+    margin-top: 30px;
+}
+
+button:hover {
+    background-color: lightyellow;
+}

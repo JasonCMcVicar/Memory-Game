@@ -34,7 +34,9 @@ function shuffle(items) {
 const game = document.querySelector('#game');
 var theMove = []; //keeps track of the current move plus last move
 var matchArray = []; //holds all the cards that should remain face up
+makeGame();
 
+function makeGame() {
 //our ten cards are created and assigned class and id's
 for (let i = 0; i < 10; i++) {
   const card = document.createElement('div');
@@ -43,16 +45,40 @@ for (let i = 0; i < 10; i++) {
   card.setAttribute('class', `${colors[i]}` );
   game.appendChild(card);
 }
-
-console.log(matchArray.length);
-//calling the function that begins the game
 addEventz();
+}
+
 
 //code for end of game
 function youWin(){
   const ending = document.createElement('h2');
   ending.innerText = "YOU WIN!";
   game.appendChild(ending);
+  playAgain();
+}
+
+//to start over once game is completed
+function playAgain(){
+  const startOverButton = document.createElement('button');
+  startOverButton.innerText = "Play Again?";
+  startOverButton.addEventListener('click', function(event){
+    event.preventDefault();
+    theMove.length = 0;
+    matchArray.length = 0;
+    shuffle(colors);
+    for (let i = 0; i < 10; i++) {
+      const remCard = document.getElementById(`${i}`);
+      game.removeChild(remCard);
+    }
+    const winMessage = document.querySelector('#game h2');
+    game.removeChild(winMessage);
+    game.removeChild(startOverButton);
+    makeGame();
+  })
+
+  setTimeout(function(){
+  game.appendChild(startOverButton);
+  }, 1000);
 }
 
 
