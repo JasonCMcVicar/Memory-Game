@@ -1,6 +1,6 @@
 "use strict";
 
-//const FOUND_MATCH_WAIT_MSECS = 1000;
+
 
 const COLORS = [
   "red", "blue", "green", "orange", "purple",
@@ -40,7 +40,6 @@ for (let i = 0; i < 10; i++) {
   let string = i.toString();
   card.setAttribute('id', string);
   card.setAttribute('class', `${colors[i]}` );
-  //card.addEventListener('click', findState);
   game.appendChild(card);
 }
 
