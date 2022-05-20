@@ -44,9 +44,18 @@ for (let i = 0; i < 10; i++) {
   game.appendChild(card);
 }
 
-
+console.log(matchArray.length);
 //calling the function that begins the game
 addEventz();
+
+//code for end of game
+function youWin(){
+  const ending = document.createElement('h2');
+  ending.innerText = "YOU WIN!";
+  game.appendChild(ending);
+}
+
+
 
 
 //this function allows for interaction: event listeners are added
@@ -75,8 +84,6 @@ function findState(event) {
   }
   moveLimiter(theMove);
 }
-//////////////////////////////////////////////////////////////////////////////
-
 
 //function that is only run when two moves accumulate in theMove array
 //does a lot of work: halts the gamer's progress by calling the removeEventz function,
@@ -85,21 +92,25 @@ function findState(event) {
 function moveLimiter(arr){
   if (arr.length == 2){
   removeEventz();
-  setTimeout(function(){
-    removeEventz();
+  const card1 = document.getElementById(`${arr[0]}`);
+  const card2 = document.getElementById(`${arr[1]}`);
 
-    const card1 = document.getElementById(`${arr[0]}`);
-    const card2 = document.getElementById(`${arr[1]}`);
     if (card1.className === card2.className) {
       matchArray.push(card1.className);
     }
-    returnToGray(arr);
+    if (matchArray.length === 5) {
+      youWin();
+    }
 
+    setTimeout(function(){
+    returnToGray(arr);
   },1000);
+
   setTimeout(function(){
     addEventz();
     theMove.length = 0;
   }, 1000);
+
   };
 }
 
